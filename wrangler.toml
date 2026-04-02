@@ -24,9 +24,9 @@ ENABLED_CACHE = "true"
 
 # D1 数据库配置（可选，选择一种缓存方式即可） 如需使用 D1 数据库缓存删除参数前的 # 符号
 #[[d1_databases]]
-#binding = "DB"
-#database_name = "pt-gen-cache"
-#database_id = ""
+binding = "DB"
+database_name = "pt-gen-cache"
+database_id = ""
 
 # 日志配置
 #[observability]
