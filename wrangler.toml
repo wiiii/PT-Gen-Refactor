@@ -1,0 +1,33 @@
+# ============================================================
+# Cloudflare Workers 部署配置
+#
+# ⚠️ 本文件会提交到 Git 仓库，禁止写入任何敏感信息。
+#    敏感值（Cookie / API Key / AUTH_SECRET 等）请改用「密钥」方式：
+#      1) Cloudflare 控制台 → 该 Worker → 设置 → 变量和密钥 → 添加「密钥」
+#      2) 本地命令行：npx wrangler secret put <变量名>
+#      3) Git 自动构建：项目 Settings → Build → Variables and Secrets（前端构建用的
+#         VITE_AUTH_SECRET 必须在这里配，值要与 Worker 的 AUTH_SECRET 完全一致）
+#    Secrets 不会被部署覆盖或删除，而 [vars] 里的变量每次部署都会以本文件为准。
+# ============================================================
+
+name = "pt-gen-refactor"
+main = "worker/index.js"
+compatibility_date = "2025-08-27"
+
+# 前端静态资源（构建命令 `cd frontend && npm install && npm run build` 的产物）
+[assets]
+directory = "./frontend/dist"
+binding = "ASSETS"
+
+# D1 缓存数据库（代码里通过 env.DB 读写 cache 表）
+[[d1_databases]]
+binding = "DB"
+database_name = "pt-gen-cache"
+database_id = "713a7a64-de3e-446b-ae48-6d1c8e3a9f7f"
+
+# 非敏感变量。注意：这里没列出的普通变量，部署时会被清掉；
+# 需要长期保留的值请配置为「密钥」（密钥不受本文件影响）。
+[vars]
+AUTHOR = "Hares"
+LOG_LEVEL = "none"
+ENABLED_CACHE = "true"
